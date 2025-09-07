@@ -1,0 +1,77 @@
+---
+title: "Mergemeta Example"
+filters:
+  - mergemeta
+
+Ykeys-local:
+  B: "better"
+  C: "cool"
+  X: 
+    a: "aha" 
+    b: "bla"
+    
+  
+Zkeys: # not merged, _metadata.yaml will get overwritten  
+  n: 3
+
+Xkeys-local:
+  x: 42
+
+mergemeta:
+  Ykeys: Ykeys-local
+  Xkeys: Xkeys-local
+---
+
+## Print out some of the keys using `meta` shortcode
+
+The document yaml defines the following keys:
+```yaml
+Ykeys-local:
+  B: "better"
+  C: "cool"
+  X: [a="aha", b="bla"]
+  
+Zkeys: # not merged, _metadata.yaml will get overwritten  
+  n: 3
+
+Xkeys-local:
+  x: 42
+
+mergemeta:
+  Ykeys: Ykeys-local
+  Xkeys: Xkeys-local # this key is not contained in _metadata.yml
+
+``` 
+
+In `_metadata.yml`, the following keys were defined:
+```yaml
+Ykeys:
+  A: "awesome"
+  B: "bold"
+  D: "disastrous"
+  X: [d="dumb"]
+Zkeys:
+  a: "nice"  
+```  
+
+The source for the next lines is
+```{shortcodes=false}
+- Xkeys.x: {{<meta Xkeys.x>}} 
+- Ykeys.A: {{<meta Ykeys.A>}} 
+- Ykeys.B: {{<meta Ykeys.B>}} 
+- Ykeys.X.a: {{<meta Ykeys.X.a>}} 
+- Ykeys.X.d: {{<meta Ykeys.X.d>}} 
+- Zkeys.a: {{<meta Zkeys.a>}}
+- Zkeys.n: {{<meta Zkeys.n>}}
+```
+
+- Xkeys.x: {{<meta Xkeys.x>}} 
+- Ykeys.A: {{<meta Ykeys.A>}} 
+- Ykeys.B: {{<meta Ykeys.B>}} 
+- Ykeys.X.a: {{<meta Ykeys.X.a>}} 
+- Ykeys.X.d: {{<meta Ykeys.X.d>}} 
+- Zkeys.a: {{<meta Zkeys.a>}}
+- Zkeys.n: {{<meta Zkeys.n>}}
+
+A new key `Xkeys` was created by the update.
+Since `Zkeys` was not merged, the key `Zkeys.n` got lost, as the whole `Zkeys` table was overwritten.
