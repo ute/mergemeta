@@ -6,6 +6,7 @@ local M = {}
 
 
 function M.tprint (tbl, indent)
+  local vstr
   if not indent then indent = 0 end
   for k, v in pairs(tbl) do
     formatting = string.rep("  ", indent) .. k .. ": "
@@ -15,7 +16,8 @@ function M.tprint (tbl, indent)
     elseif type(v) == 'boolean' then
       print(formatting .. tostring(v))
     else
-      print(formatting .. pandoc.utils.stringify(v))
+      vstr = pandoc.utils.stringify(v)
+      print(formatting .. vstr)
     end
   end
 end

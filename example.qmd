@@ -29,7 +29,8 @@ The document yaml defines the following keys:
 Ykeys-local:
   B: "better"
   C: "cool"
-  X: [a="aha", b="bla"]
+  X: [a: "aha", b: "bla"]
+  n: 33
   
 Zkeys: # not merged, _metadata.yaml will get overwritten  
   n: 3
@@ -74,4 +75,4 @@ The source for the next lines is
 - Zkeys.n: {{<meta Zkeys.n>}}
 
 A new key `Xkeys` was created by the update.
-Since `Zkeys` was not merged, the key `Zkeys.n` got lost, as the whole `Zkeys` table was overwritten.
+Since `Zkeys` was not merged, the key `Zkeys.a` got lost, as the whole `Zkeys` table was overwritten.
