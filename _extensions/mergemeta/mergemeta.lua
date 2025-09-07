@@ -31,7 +31,7 @@ SOFTWARE.
 -- if t1 and t2 contain keys with values of different type, an error is thrown
 --]--
 
-function tableupdate(t1, t2)
+local function tableupdate(t1, t2)
   local vv
   if type(t1) ~= "table" then error("tableupdate: t1 is not a table", 2) end
   if type(t2) ~= "table" then error("tableupdate: t2 is not a table", 2) end
@@ -56,7 +56,7 @@ function tableupdate(t1, t2)
                 if type(v) ~= "table" or  pandoc.utils.type(v) == "Inlines"
                   then vv = v
                   else
-                    --print("recurse") 
+                    --print("recurse")
                     --print(k.." has pandoctype "..pandoc.utils.type(v))
                      vv = tableupdate(t1[k], v)
                   end
@@ -74,25 +74,25 @@ end
 
 -- merge keys
 function Meta(m)
-  if m.mergemeta 
-  then 
+  if m.mergemeta
+  then
     print("merging meta keys")
     for k, v in pairs(m.mergemeta) do
-      vstr = pandoc.utils.stringify(v) 
+      vstr = pandoc.utils.stringify(v)
       if m[vstr] == nil then
         print("nothing to merge in, "..vstr.." not found")
-      else  
+      else
         if m[k] == nil then
           print("no original key "..k.." - create new from "..vstr)
           m[k] = m[vstr]
-        else 
-          print("update "..k.." with ".. vstr) 
+        else
+          print("update "..k.." with ".. vstr)
           if type(m[k]) == "table" then
-            -- check if string: just replace (Pandoc Inline) 
+            -- check if string: just replace (Pandoc Inline)
             -- print("Pandoctype: "..pandoc.utils.type(m[k]))
             tableupdate(m[k], m[vstr])
-            --else m[k] = m[vstr]  
-          end   
+            --else m[k] = m[vstr]
+          end
         end
     end
     end

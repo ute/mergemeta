@@ -15,11 +15,12 @@ If you're using version control, you will want to check in this directory.
 
 To define mergeable yaml keys in the document, they need to have a different name. With the present filter, you can then merge the document yaml into the project or folder yaml. 
 
-In the document yaml, use
+In the document yaml, list `mergemeta` **before** any custom filters that may depend on it.
+
 ```yaml
 filters:
   - mergemeta
-  - customfilters # some filters that evaluates the yaml data
+  - customfilters # some filters that evaluate the yaml data
 
 myKeys:
   # some definitions only for the present document, e.g.
